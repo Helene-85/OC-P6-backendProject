@@ -1,4 +1,4 @@
-const Sauce = require('../models/auce');
+const Sauce = require('../models/sauce');
 const fs = require('fs');
 
 // Mise en place CRUD
