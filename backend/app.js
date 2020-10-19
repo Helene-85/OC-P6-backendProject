@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const path = require('path');
 
-const app = express();
+const sauceRoutes = require("./routes/sauces");
+const userRoutes = require("./routes/user");
 
 mongoose.connect('mongodb+srv://Helene-MB:WNK7Pz74chjApjQ@pojet6-openclassrooms.lgx8p.mongodb.net/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -10,6 +12,9 @@ mongoose.connect('mongodb+srv://Helene-MB:WNK7Pz74chjApjQ@pojet6-openclassrooms.
   .then(() => console.log('Connexion à MongoDB réussie YOUPI !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+const app = express();
+
+// Initialisation des headers pour empécher le CORS de bloquer l'application
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -17,35 +22,11 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(bodyParser.json());
+app.use(bodyParser.json());                                                // Définition de la fonction json comme middleware global
 
-app.post('/api/sauces', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Objet créé !'
-    });
-});
+app.use('/images', express.static(path.join(__dirname, 'images')));        // Gestiion de la source de manière statique grâce à Express
 
-app.use('/api/sauces', (req, res, next) => {
-    const sauces = [
-      {
-        _id: 'oeihfzeoi',
-        title: 'Mon premier objet',
-        description: 'Les infos de mon premier objet',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 4900,
-        userId: 'qsomihvqios',
-      },
-      {
-        _id: 'oeihfzeomoihi',
-        title: 'Mon deuxième objet',
-        description: 'Les infos de mon deuxième objet',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 2900,
-        userId: 'qsomihvqios',
-      },
-    ];
-    res.status(200).json(sauces);
-});
+app.use("/api/sauces", sauceRoutes);                                       // L'application utilise le endpoint /api/sauces pour les routes sauceRoutes
+app.use("/api/auth", userRoutes);                                          // L'application utilise le endpoint /api/auth pour les routes userRoutes
 
 module.exports = app;

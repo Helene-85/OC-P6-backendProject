@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 
+// Modèle de données
 const sauceSchema = mongoose.Schema({
     userId: { type: String, required: true },                 // Identifiant unique MongoDB pour l'utilisateur qui a créé la sauce
     name: { type: String, required: true },                   // Nom de la sauce
