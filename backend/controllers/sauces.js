@@ -52,3 +52,28 @@ exports.deleteSauce = (req, res, next) => {                                     
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+exports.addLikeDislike = (req, res, next) => {
+  Sauce.findOne({ _id: req.params.id })
+  .then(sauce =>{
+      const userId = req.body.userId;
+      let userWantsToLike = (req.body.like === 1);
+      let userWantsToDislike = (req.body.like === -1);
+      let userWantsToCancel = (req.body.like === 0);
+      const userCanLike = (!sauce.usersLiked.includes(userId));
+      const userCanDislike = (!sauce.usersDisliked.includes(userId));
+      const notTheFirstVote = (sauce.usersLiked.includes(userId) || sauce.usersDisliked.includes(userId));
+
+      if (userWantsToLike && userCanLike) {
+        sauce.usersLiked.push(userId)
+      };
+
+      if (userWantsToCancel && notTheFirstVote) {
+        sauce.usersLiked.splice(userId, 1)
+      };
+
+      if (userWantsToDislike && userCanDislike) {
+        sauce.usersDisliked.push(userId)
+      };
+  });
+};

@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');                                               
 const jwt = require('jsonwebtoken');                                            // Importation du package jasonwebtoken
 const emailValidator = require('email-validator');                              // Importation du package email-validator
 const passwordValidator = require('password-validator');                        // Importation du package password-validator
-const sanitize = require('express-mongo-sanitize');                        // Importation du package mongo-sanitize
+const sanitize = require('express-mongo-sanitize');                             // Importation du package mongo-sanitize
 
 const User = require('../models/User');
 
