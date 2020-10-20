@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-const uniqueValidator = require("mongoose-unique-validator");
+const mongoose = require("mongoose");                           // Importation du package mongoose
+const uniqueValidator = require("mongoose-unique-validator");   // Importation du package monggose-unique-validator
 
 const userSchema = mongoose.Schema({
   email: { type: String, required: true, unique: true },        // Adresse électronique unique de l'utilisateur

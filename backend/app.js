@@ -1,12 +1,15 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
-const path = require('path');
+const express = require('express');                   // Importation du framework Express
+const bodyParser = require('body-parser');            // Importation du package body-parser
+const mongoose = require('mongoose');                 // Importation du package mongoose 
+const path = require('path');                         // Importation du package monngoose-path
+const helmet = require('helmet');                     // Importation du package helmet
+
+require('dotenv').config()                            // Importation et configuration du module dotenv
 
 const sauceRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
 
-mongoose.connect('mongodb+srv://Helene-MB:WNK7Pz74chjApjQ@pojet6-openclassrooms.lgx8p.mongodb.net/<dbname>?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://'+ process.env.DB_USER +':'+ process.env.DB_PASS +'@'+ process.env.DB_COLL +'.'+ process.env.DB_HOST + '/<dbname>?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie YOUPI !'))
@@ -25,6 +28,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());                                                // Définition de la fonction json comme middleware global
 
 app.use('/images', express.static(path.join(__dirname, 'images')));        // Gestiion de la source de manière statique grâce à Express
+
+app.use(helmet());                                                         // Activation de la protection Helmet : équivaut à 11 protections
 
 app.use("/api/sauces", sauceRoutes);                                       // L'application utilise le endpoint /api/sauces pour les routes sauceRoutes
 app.use("/api/auth", userRoutes);                                          // L'application utilise le endpoint /api/auth pour les routes userRoutes

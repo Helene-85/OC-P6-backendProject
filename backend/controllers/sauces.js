@@ -1,9 +1,10 @@
 const Sauce = require('../models/sauce');
 const fs = require('fs');
+const sanitize = require('express-mongo-sanitize');  
 
 // Mise en place CRUD
 exports.createSauce = (req, res, next) => {                                       // CREATE
-  const sauceObject = JSON.parse(req.body.sauce);
+  const sauceObject = JSON.parse(sanitize(req.body.sauce));
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
@@ -31,7 +32,7 @@ exports.getOneSauce = (req, res, next) => {
 exports.modifySauce = (req, res, next) => {                                       // UPDATE
   const sauceObject = req.file ? 
     {
-      ...JSON.parse(req.body.sauce),
+      ...JSON.parse(sanitize(req.body.sauce)),
       imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
     } : { ...req.body };
   Sauce.updateOne({ _id: req.params.id }, { ...sauceObject, _id: req.params.id })
