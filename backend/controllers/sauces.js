@@ -1,10 +1,9 @@
-const Sauce = require('../models/sauce');
+const Sauce = require('../models/Sauce');
 const fs = require('fs');
-const sanitize = require('express-mongo-sanitize');  
 
 // Mise en place CRUD
 exports.createSauce = (req, res, next) => {                                       // CREATE
-  const sauceObject = JSON.parse(sanitize(req.body.sauce));
+  const sauceObject = JSON.parse(req.body.sauce);
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
