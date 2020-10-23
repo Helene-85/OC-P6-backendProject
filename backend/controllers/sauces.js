@@ -54,7 +54,7 @@ exports.deleteSauce = (req, res, next) => {                                     
 
 exports.addLikeDislike = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
-  .then(sauce =>{
+  .then(sauce => {
       const userId = req.body.userId;
       let userWantsToLike = (req.body.like === 1);
       let userWantsToDislike = (req.body.like === -1);
