@@ -65,14 +65,31 @@ exports.addLikeDislike = (req, res, next) => {
 
       if (userWantsToLike && userCanLike) {
         sauce.usersLiked.push(userId)
-      };
+      }
 
       if (userWantsToCancel && notTheFirstVote) {
-        sauce.usersLiked.splice(userId, 1)
-      };
+        if (userCanLike) {
+          // enlever le like de l'utlisateur
+          let index = sauce.usersDisliked.indexOf(userId)
+          sauce.usersDisliked.splice(index, 1)
+        }
+        if (userCanDislike) {
+          // enlever le dislike de l'utilisateur
+          let index = sauce.usersLiked.indexOf(userId)
+          sauce.usersLiked.splice(index, 1)
+        }
+      }
 
       if (userWantsToDislike && userCanDislike) {
         sauce.usersDisliked.push(userId)
-      };
-  });
+      }
+      sauce.likes = sauce.usersLiked.length
+      sauce.dislikes = sauce.usersDisliked.length
+      let newSauce = sauce;
+      newSauce.save();
+
+      return newSauce;
+  })
+  .then(sauce => res.status(200).json(sauce))
+  .catch(error => res.status(400).json({error}));
 };
