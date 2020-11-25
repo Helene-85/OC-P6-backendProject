@@ -1,4 +1,6 @@
-const passwordSchema = require('../constraints/Password');
+// Mise en place de la vérification des passwords
+
+const passwordSchema = require('../constraints/Password');                  // Importation du schéma des passwords avec leurs contraintes
 
 module.exports = (req, res, next) => {
     if (!passwordSchema.validate(req.body.password)) {

@@ -17,7 +17,7 @@ mongoose.connect('mongodb+srv://'+ process.env.DB_USER +':'+ process.env.DB_PASS
 
 const app = express();
 
-// Initialisation des headers pour empécher le CORS de bloquer l'application
+// Configuration des CORS
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
@@ -25,13 +25,13 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use(bodyParser.json());                                                // Définition de la fonction json comme middleware global
+app.use(bodyParser.json());                                                // Parse le body des requêtes en JSON
 
-app.use('/images', express.static(path.join(__dirname, 'images')));        // Gestiion de la source de manière statique grâce à Express
+app.use('/images', express.static(path.join(__dirname, 'images')));        // Gestion de la source de manière statique grâce à Express
 
 app.use(helmet());                                                         // Activation de la protection Helmet : équivaut à 11 protections
 
 app.use("/api/sauces", sauceRoutes);                                       // L'application utilise le endpoint /api/sauces pour les routes sauceRoutes
 app.use("/api/auth", userRoutes);                                          // L'application utilise le endpoint /api/auth pour les routes userRoutes
 
-module.exports = app;
+module.exports = app;                                                      // Exportation du fichier pour l'utiliser sur le serveur Node

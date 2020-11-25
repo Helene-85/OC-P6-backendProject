@@ -1,5 +1,7 @@
-const http = require('http');
-const app = require('./app');
+// Mise en place du server
+
+const http = require('http');                           // Importation du package HTTP
+const app = require('./app');                           // Importation de l'application Express
 
 const normalizePort = val => {
   const port = parseInt(val, 10);
@@ -12,10 +14,10 @@ const normalizePort = val => {
   }
   return false;
 };
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '3000');   // Renvoie un port valide : port de l'environnement ou 3000
 app.set('port', port);
 
-const errorHandler = error => {
+const errorHandler = error => {                           // Recherche les différentes erreurs et les gère
   if (error.syscall !== 'listen') {
     throw error;
   }
@@ -35,10 +37,10 @@ const errorHandler = error => {
   }
 };
 
-const server = http.createServer(app);
+const server = http.createServer(app);                    // On passe l'app 
 
 server.on('error', errorHandler);
-server.on('listening', () => {
+server.on('listening', () => {                            // On consigne le port sur lequel le serveur s'éxécute dans la console
   const address = server.address();
   const bind = typeof address === 'string' ? 'pipe ' + address : 'port ' + port;
   console.log('Listening on ' + bind);

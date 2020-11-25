@@ -1,5 +1,5 @@
-const express = require("express");
-const router = express.Router();
+const express = require("express");                         // Importation du package Express
+const router = express.Router();                            // Création router users avec la méthode router d'Express
 
 // Importation des logiques métier pour les routes
 const userController = require("../controllers/user");

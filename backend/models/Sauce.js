@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require("mongoose");                         // Importation du package mongoose
 
 // Modèle de données
 const sauceSchema = mongoose.Schema({

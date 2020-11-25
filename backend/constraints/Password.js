@@ -1,4 +1,6 @@
-const passwordValidator = require('password-validator');       // Importation du package password-validator
+// Mise en place des contraintes pour les passwords
+
+const passwordValidator = require('password-validator');                      // Importation du package password-validator
 
 const passwordSchema = new passwordValidator();
 

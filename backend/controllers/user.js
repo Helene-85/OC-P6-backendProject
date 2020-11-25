@@ -1,11 +1,11 @@
-const bcrypt = require('bcrypt');                                               // Importation du package bcrytp
-const jwt = require('jsonwebtoken');                                            // Importation du package jasonwebtoken
+const bcrypt = require('bcrypt');                                           // Importation du package bcrytp
+const jwt = require('jsonwebtoken');                                        // Importation du package jasonwebtoken : authentification sécurisée
 
 const User = require('../models/User');
 
 // Inscription
 exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)                                            // On appelle la fonction de hachage, on créer un nouvel utilisateur, on le sauvegarde dans la BDD
+  bcrypt.hash(req.body.password, 10)                                        // On appelle la fonction de hachage, on créer un nouvel utilisateur, on le sauvegarde dans la BDD
     .then(hash => {
       const user = new User({
         email: req.body.email,
@@ -33,7 +33,7 @@ exports.login = (req, res, next) => {
           res.status(200).json({                                                   // Si le mot de passe est validé, un nouveau token est encodé
             userId: user._id,
             token: jwt.sign(
-              { userId: user._id },
+              { userId: user._id },                                                // Payload que l'on souhaite encoder : données à sécuriser
               `${process.env.JWT_KEY}`,                                            // Code aléatoire de 32 caractères masqué grâce à dotenv
               { expiresIn: '24h' }                                                 // Expiration de la session au bout de 24h
             )

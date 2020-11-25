@@ -2,25 +2,28 @@ const Sauce = require('../models/Sauce');
 const fs = require('fs');
 
 // Mise en place CRUD
-exports.createSauce = (req, res, next) => {                                       // CREATE
-  const sauceObject = JSON.parse(req.body.sauce);
+
+// CREATE
+exports.createSauce = (req, res, next) => {                                         // Créer une sauce
+  const sauceObject = JSON.parse(req.body.sauce);                                   // Extraction de l'objet JSON
   delete sauceObject._id;
   const sauce = new Sauce({
     ...sauceObject,
-    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`    // Précision du format d'url des images
   });
   sauce.save()
     .then(() => res.status(201).json({ message: 'Nouvelle sauce créée !' }))
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.getAllSauces = (req, res, next) => {                                      // READ
+// READ
+exports.getAllSauces = (req, res, next) => {                                        // Afficher toutes les sauces 
   Sauce.find()
     .then((sauces) => res.status(200).json(sauces))
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.getOneSauce = (req, res, next) => {
+exports.getOneSauce = (req, res, next) => {                                         // Afficher une seule sauce
   Sauce.findOne({_id: req.params.id})
     .then((sauce) => {res.status(200).json(sauce);
     })
@@ -28,7 +31,8 @@ exports.getOneSauce = (req, res, next) => {
     });
 };
 
-exports.modifySauce = (req, res, next) => {                                       // UPDATE
+// UPDATE
+exports.modifySauce = (req, res, next) => {                                         // Modifier une sauce
   const sauceObject = req.file ? 
     {
       ...JSON.parse(sanitize(req.body.sauce)),
@@ -39,7 +43,8 @@ exports.modifySauce = (req, res, next) => {                                     
     .catch((error) => res.status(400).json({ error }));
 };
 
-exports.deleteSauce = (req, res, next) => {                                       // DELETE
+// DELETE
+exports.deleteSauce = (req, res, next) => {                                         // Supprimer une sauce
   Sauce.findOne({ _id: req.params.id })
     .then(sauce => {
       const filename = sauce.imageUrl.split('/images/')[1];
@@ -51,6 +56,8 @@ exports.deleteSauce = (req, res, next) => {                                     
     })
     .catch(error => res.status(500).json({ error }));
 };
+
+// Mise en place Like ou Dislike une sauce
 
 exports.addLikeDislike = (req, res, next) => {
   Sauce.findOne({ _id: req.params.id })
@@ -64,29 +71,29 @@ exports.addLikeDislike = (req, res, next) => {
       const notTheFirstVote = (sauce.usersLiked.includes(userId) || sauce.usersDisliked.includes(userId));
 
       if (userWantsToLike && userCanLike) {
-        sauce.usersLiked.push(userId)
+        sauce.usersLiked.push(userId)                             // Ajouter le like
       }
 
       if (userWantsToCancel && notTheFirstVote) {
         if (userCanLike) {
-          // enlever le like de l'utlisateur
+                                                                  // Annuler le like de l'utlisateur
           let index = sauce.usersDisliked.indexOf(userId)
           sauce.usersDisliked.splice(index, 1)
         }
         if (userCanDislike) {
-          // enlever le dislike de l'utilisateur
+                                                                  // Annuler le dislike de l'utilisateur
           let index = sauce.usersLiked.indexOf(userId)
           sauce.usersLiked.splice(index, 1)
         }
       }
 
-      if (userWantsToDislike && userCanDislike) {
+      if (userWantsToDislike && userCanDislike) {                 // Ajouter le dislike
         sauce.usersDisliked.push(userId)
       }
-      sauce.likes = sauce.usersLiked.length
+      sauce.likes = sauce.usersLiked.length                       // Calculer le nombre de like et dislike
       sauce.dislikes = sauce.usersDisliked.length
       let newSauce = sauce;
-      newSauce.save();
+      newSauce.save();                                            // Mettre à jour la sauce avec les nouvelles valeurs
 
       return newSauce;
   })
