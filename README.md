@@ -5,7 +5,7 @@ Construisez une API sécurisée pour une application d'avis gastronomiques
 ## Scénario du projet
 
 Développement d'une application dans laquelle les users peuvent **ajouter** leurs sauces pimentées favorites.
-Iels peuvent aussi **liker** et **disliker** ajoutées par les autres users. Pour se faire un.e user peut être créé.e et se connecter.
+Les users peuvent aussi **liker** et **disliker**  les sauces ajoutées par les autres users. Pour se faire un.e user peut s'inscrire et se connecter.
 Mon rôle est de développer la partie **backend** de l'application, le frontend est fourni par Openclassrooms.
 
 ### Compétences évaluées
@@ -16,7 +16,7 @@ Mon rôle est de développer la partie **backend** de l'application, le frontend
 
 ### Progression
 
-Projet finalié, en attente de la soutenance pou validation
+Projet finalié, en attente de la soutenance pour validation
 
 ## Backend Piquante
 
