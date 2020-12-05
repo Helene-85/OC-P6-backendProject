@@ -30,7 +30,6 @@ Projet finalié, en attente de la soutenance pour validation
 ## Sécurités mises en place
 
 - hashage du mdp user avec **bcrypt**
-- validation rapide et robuste des emails avec **email-validator**
 - utlisation de variables d'environnement pour les données sensibles avec **dotenv**
 - manipulation sécurisée de la base de donnée avec **mongoose**
 - authentification du user par token avec **jsonwentoken**
