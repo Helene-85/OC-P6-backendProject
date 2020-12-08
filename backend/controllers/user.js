@@ -1,16 +1,17 @@
-const bcrypt = require('bcrypt');                                           // Importation du package bcrytp
-const jwt = require('jsonwebtoken');                                        // Importation du package jasonwebtoken : authentification sécurisée
+const bcrypt = require('bcrypt');                                   // Importation du package bcrytp
+const jwt = require('jsonwebtoken');                                // Importation du package jasonwebtoken : authentification sécurisée
 
 const User = require('../models/User');
 
 // Inscription
 exports.signup = (req, res, next) => {
-  bcrypt.hash(req.body.password, 10)                                        // On appelle la fonction de hachage, on créer un nouvel utilisateur, on le sauvegarde dans la BDD
+  bcrypt.hash(req.body.password, 10)                                // On appelle la fonction de hachage, on créer un nouvel utilisateur, on le sauvegarde dans la BDD
     .then(hash => {
       const user = new User({
         email: req.body.email,
         password: hash,
       });
+      console.log('a');
       user.save()
         .then(() => res.status(201).json({ message: 'Utilisateur créé !' }))
         .catch(error => res.status(400).json({ message: 'Cette adresse email est déjà utilisée :/' }));
