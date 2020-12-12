@@ -5,7 +5,6 @@ const path = require('path');                         // Importation du package 
 const helmet = require('helmet');                     // Importation du package helmet
 
 require('dotenv').config()                            // Importation et configuration du module dotenv
-console.log('a');
 const sauceRoutes = require("./routes/sauces");
 const userRoutes = require("./routes/user");
 
@@ -24,14 +23,9 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
 });
-console.log('b');
 app.use(bodyParser.json());                                                // Parse le body des requêtes en JSON
-
 app.use('/images', express.static(path.join(__dirname, 'images')));        // Gestion de la source de manière statique grâce à Express
-
 app.use(helmet());                                                         // Activation de la protection Helmet : équivaut à 11 protections
-console.log('c');
 app.use("/api/sauces", sauceRoutes);                                       // L'application utilise le endpoint /api/sauces pour les routes sauceRoutes
 app.use("/api/auth", userRoutes);                                          // L'application utilise le endpoint /api/auth pour les routes userRoutes
-console.log('d');
 module.exports = app;                                                      // Exportation du fichier pour l'utiliser sur le serveur Node
