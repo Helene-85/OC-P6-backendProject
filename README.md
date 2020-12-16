@@ -16,7 +16,7 @@ Mon rôle est de développer la partie **backend** de l'application, le frontend
 
 ### Progression
 
-Projet finalié, en attente de la soutenance pour validation
+Projet validé en soutenance le 16/12/2020
 
 ## Backend Piquante
 
